@@ -15,7 +15,9 @@ module Backframe
             conditions = []
             conditions << '("activities"."object1_type"=? AND "activities"."object1_id"=?)'
             conditions << '("activities"."object2_type"=? AND "activities"."object2_id"=?)'
-            conditions << '"activities"."subject_type"=? && "activities"."subject_id"=?' if self.is_a?(Admin) || self.is_a?(Customer)
+            if self.is_a?(Admin) || self.is_a?(Customer)
+              conditions << '"activities"."subject_type"=? AND "activities"."subject_id"=?'
+            end
             fragment = [conditions.join(' OR '), self.class.name, self.id, self.class.name, self.id]
             fragment.concat([self.class.name, self.id]) if self.is_a?(Admin) || self.is_a?(Customer)
             Activity.where(fragment)
