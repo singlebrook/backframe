@@ -2,7 +2,6 @@
 
 module Backframe
   module ActsAsActivable
-  
     extend ActiveSupport::Concern
 
     def self.included(base)
@@ -10,11 +9,8 @@ module Backframe
     end
 
     module ClassMethods
-
       def acts_as_activable(entity, text, link)
-
-        class_eval <<-EOV
-
+        class_eval <<-EOV, __FILE__, __LINE__ + 1
           def activities
             conditions = []
             conditions << '("activities"."object1_type"=? AND "activities"."object1_id"=?)'
@@ -41,10 +37,7 @@ module Backframe
             link
           end
         EOV
-
       end
-
     end
-
   end
 end

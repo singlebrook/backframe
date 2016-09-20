@@ -42,11 +42,13 @@ module Backframe
 
         if arguments.key?(:has_many)
           arguments[:has_many].each do |association|
-            class_eval <<-EOV
-              def #{association}
-                page(@item.#{association})
-              end
-            EOV
+            class_eval(
+              <<-EOV, __FILE__, __LINE__ + 1
+                def #{association}
+                  page(@item.#{association})
+                end
+              EOV
+            )
           end
         end
       end
