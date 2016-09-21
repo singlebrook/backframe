@@ -9,10 +9,8 @@ module Backframe
     end
 
     module ClassMethods
-
       def acts_as_orderable(field, args = {})
-
-        class_eval <<-EOV
+        class_eval <<-EOV, __FILE__, __LINE__ + 1
           validates_presence_of :#{field}
 
           before_validation :set_#{field}, :on => :create
@@ -29,12 +27,8 @@ module Backframe
               item.update_column(:#{field}, index)
             end
           end
-
         EOV
-
       end
-
     end
-
   end
 end

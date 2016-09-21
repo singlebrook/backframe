@@ -9,13 +9,9 @@ module Backframe
 
     class_methods do
       def acts_as_activation(model, *args)
-
         arguments = args[0] || {}
-
         activation = arguments[:activation] || 'Backframe::Activation'
-
-        class_eval <<-EOV
-
+        class_eval <<-EOV, __FILE__, __LINE__ + 1
           layout 'signin'
           before_action :load_user, :except => :show
 
@@ -60,11 +56,8 @@ module Backframe
                 redirect_to '#{arguments[:prefix]}/signin'
               end
             end
-
         EOV
-
       end
     end
-
   end
 end

@@ -9,24 +9,15 @@ module Backframe
     end
 
     module ClassMethods
-
       def default_values(*args)
-
         arguments = args[0] || {}
-
         after_initialize :set_default_values, :if => Proc.new { |o| o.new_record? }
-
-        class_eval <<-EOV
-
+        class_eval <<-EOV, __FILE__, __LINE__ + 1
           def set_default_values
             self.attributes = #{arguments.symbolize_keys.to_s}
           end
-
         EOV
-
-
       end
-
     end
   end
 end

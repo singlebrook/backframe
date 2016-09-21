@@ -27,7 +27,7 @@ module Backframe
         validates_presence_of :first_name, :last_name, :email
         validate :validate_password, :if => Proc.new { |u| u.change_password.present? || u.set_password.present? }
 
-        class_eval <<-EOV
+        class_eval <<-EOV, __FILE__, __LINE__ + 1
           def full_name
             self.first_name+' '+self.last_name
           end

@@ -9,13 +9,9 @@ module Backframe
 
     class_methods do
       def acts_as_reset(model, *args)
-
         arguments = args[0] || {}
-
         reset = arguments[:reset] || 'Backframe::Reset'
-
-        class_eval <<-EOV
-
+        class_eval <<-EOV, __FILE__, __LINE__ + 1
           layout 'signin'
           before_action :redirect_if_signed_in
           before_action :load_user, :except => [:new,:show]
@@ -76,11 +72,8 @@ module Backframe
                 redirect_to account_signin_path
               end
             end
-
         EOV
-
       end
     end
-
   end
 end

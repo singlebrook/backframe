@@ -15,7 +15,7 @@ module Backframe
 
       def acts_as_phone(entity)
 
-        class_eval <<-EOV
+        class_eval <<-EOV, __FILE__, __LINE__ + 1
 
           after_initialize :uncast_phone_#{entity}, :if => Proc.new { |c| !c.new_record? && c.#{entity}.present? }
           before_save :cast_phone_#{entity}, :if => Proc.new { |c| c.#{entity}.present? }

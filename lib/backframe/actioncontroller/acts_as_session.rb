@@ -9,10 +9,8 @@ module Backframe
 
     class_methods do
       def acts_as_session(model, *args)
-
         arguments = args[0] || {}
-
-        class_eval <<-EOV
+        class_eval <<-EOV, __FILE__, __LINE__ + 1
 
           layout 'signin'
           before_action :redirect_if_signed_in, :except => [:application,:destroy]
@@ -70,11 +68,8 @@ module Backframe
                 redirect_to '#{arguments[:prefix]}/signin'
               end
             end
-
         EOV
-
       end
     end
-
   end
 end

@@ -10,11 +10,8 @@ module Backframe
     end
 
     module ClassMethods
-
       def acts_as_percent(entity)
-
-        class_eval <<-EOV
-
+        class_eval <<-EOV, __FILE__, __LINE__ + 1
           after_initialize :uncast_percent_#{entity}, :if => Proc.new { |c| c.#{entity}.present? }
           before_save :cast_percent_#{entity}, :if => Proc.new { |c| c.#{entity}.present? }
           after_save :uncast_percent_#{entity}, :if => Proc.new { |c| c.#{entity}.present? }
@@ -32,15 +29,8 @@ module Backframe
           def cast_percent_#{entity}
             self.#{entity} = self.#{entity} / 100.00
           end
-
         EOV
-
       end
-
     end
-
   end
 end
-
-
-
