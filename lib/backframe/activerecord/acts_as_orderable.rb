@@ -17,8 +17,6 @@ module Backframe
           before_validation :set_#{field}, :on => :create
           after_destroy :reorder_#{field}
 
-          default_scope -> { order(:#{field} => :asc) }
-
           def set_#{field}
             self.#{field} ||= (self.#{on}.#{self.name.tableize}.any?) ? self.#{on}.#{self.name.tableize}.maximum(:#{field}) + 1 : 0
           end
