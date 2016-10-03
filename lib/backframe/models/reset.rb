@@ -51,8 +51,11 @@ module Backframe
         template = EmailTemplate.find_by(:code => 'password_reset')
         email = EmailDelivery.new(:customer => self.user, :subject => template.subject, :body => template.body)
         email.personalize(:customer => self.user, :reset => self)
-        email.save
+        email.save!
+        ::Resque.enqueue(ProcessEmailJob, email.id)
       end
+    rescue StandardError => e
+      ::Rails.logger.error("Unable to send pw reset email: #{e}")
     end
   end
 end

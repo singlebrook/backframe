@@ -88,14 +88,12 @@ module Backframe
             self.activations.create
           end
 
+          # Create a `Reset` record and send an email.
           def reset
             self.resets.create
           end
-
         EOV
-
       end
-
     end
   end
 end
